@@ -8,6 +8,7 @@ import FoodDetail from "./app_components/FoodDetail"
 
 function App() {
   const [foodData, setFoodData] = useState([])
+  const [foodId, setFoodId] = useState("642583")
 
   return (
     <>
@@ -15,10 +16,10 @@ function App() {
       < Search foodData={foodData} setFoodData={setFoodData} />
       < Container>
         <InnerContainer>
-          < FoodList foodData={foodData} />
+          < FoodList setFoodId={setFoodId} foodData={foodData} />
         </InnerContainer>
         <InnerContainer>
-          < FoodDetail />
+          < FoodDetail foodId={foodId} />
         </InnerContainer>
       </Container>
     </>

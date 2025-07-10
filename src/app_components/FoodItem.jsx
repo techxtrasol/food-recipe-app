@@ -1,64 +1,56 @@
-import { Clock, Users, Star } from "lucide-react"
+"use client"
 
-const FoodItem = ({ food }) => {
+import { Clock, Users, Heart } from "lucide-react"
+import { useState } from "react"
+
+const FoodItem = ({ food, setFoodId, isSelected }) => {
+  const [isFavorite, setIsFavorite] = useState(false)
+
   return (
-    <div className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-emerald-200 transform hover:-translate-y-2">
+    <div
+      className={`bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border-2 ${
+        isSelected ? "border-emerald-500 ring-2 ring-emerald-200" : "border-transparent hover:border-emerald-200"
+      }`}
+    >
       {/* Image Container */}
-      <div className="relative overflow-hidden">
+      <div className="relative">
         <img
-          src={food.image || "/placeholder.svg"}
+          src={food.image || "/placeholder.svg?height=200&width=300"}
           alt={food.title}
-          className="w-full h-48 sm:h-56 object-cover transition-transform duration-500 group-hover:scale-110"
+          className="w-full h-40 object-cover"
         />
-
-        {/* Overlay Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-        {/* Favorite Button */}
-        <button className="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur-sm rounded-full shadow-md hover:bg-white hover:scale-110 transition-all duration-200">
-          <Star className="h-4 w-4 text-gray-600 hover:text-yellow-500" />
+        <button
+          onClick={() => setIsFavorite(!isFavorite)}
+          className="absolute top-2 right-2 p-1.5 bg-white/90 backdrop-blur-sm rounded-full shadow-sm hover:bg-white transition-all"
+        >
+          <Heart className={`h-4 w-4 ${isFavorite ? "text-red-500 fill-current" : "text-gray-600"}`} />
         </button>
       </div>
 
-      {/* Content Container */}
-      <div className="p-5">
-        {/* Title */}
-        <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-emerald-600 transition-colors duration-200">
-          {food.title}
-        </h3>
+      {/* Content */}
+      <div className="p-4">
+        <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2 text-sm leading-tight">{food.title}</h3>
 
-        {/* Recipe Stats */}
-        <div className="flex items-center justify-between mb-4 text-sm text-gray-600">
+        {/* Stats */}
+        <div className="flex items-center justify-between text-xs text-gray-600 mb-3">
           <div className="flex items-center space-x-1">
-            <Clock className="h-4 w-4" />
-            <span>30 min</span>
+            <Clock className="h-3 w-3" />
+            <span>{food.readyInMinutes || 30} min</span>
           </div>
           <div className="flex items-center space-x-1">
-            <Users className="h-4 w-4" />
-            <span>4 servings</span>
-          </div>
-          <div className="flex items-center space-x-1">
-            <Star className="h-4 w-4 text-yellow-500" />
-            <span>4.5</span>
+            <Users className="h-3 w-3" />
+            <span>{food.servings || 4} servings</span>
           </div>
         </div>
 
-        {/* Tags */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          <span className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-medium rounded-full">
-            Quick & Easy
-          </span>
-          <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full">Healthy</span>
-        </div>
-
-        {/* Action Button */}
-        <button className="w-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-emerald-200">
+        {/* Button */}
+        <button
+          onClick={() => setFoodId(food.id)}
+          className="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors"
+        >
           View Recipe
         </button>
       </div>
-
-      {/* Subtle Border Animation */}
-      <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-emerald-200 transition-colors duration-300 pointer-events-none"></div>
     </div>
   )
 }
